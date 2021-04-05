@@ -26,5 +26,9 @@ async def sarcastic_reply(message):
     if message.from_user.id == int(USER_ID):
         await message.reply(random.choice(answer_var))
 
+@dp.message_handler(commands=['status'])
+async def get_status(message):
+    await message.reply('Я НЕ СПЛЮ')
+
 if __name__=="__main__":
     executor.start_polling(dp)

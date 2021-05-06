@@ -2,6 +2,9 @@ from aiogram import Bot, Dispatcher, executor
 import os
 import random
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 API_TOKEN = os.getenv('API_TOKEN')
 USER_ID = os.getenv('USER_ID')

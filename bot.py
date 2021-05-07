@@ -9,14 +9,6 @@ load_dotenv()
 API_TOKEN = os.getenv('API_TOKEN')
 USER_ID = os.getenv('USER_ID')
 
-IP_HOST = os.getenv('HOST')
-WEBHOOK_HOST = f'https://{IP_HOST}'
-WEBHOOK_PATH = f'/webhook/{API_TOKEN}'
-WEBHOOK_URL = f'{WEBHOOK_HOST}{WEBHOOK_PATH}'
-
-WEBAPP_HOST = '0.0.0.0'
-WEBAPP_PORT = int(os.getenv('PORT'))
-
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=API_TOKEN)
@@ -50,13 +42,4 @@ async def on_shutdown(dp):
     logging.warning('Bye!')
     
 if __name__=="__main__":
-    executor.start_webhook(
-            dispatcher=dp,
-            webhook_path=WEBHOOK_PATH,
-            on_startup=on_startup,
-            on_shutdown=on_shutdown,
-            skip_updates=True,
-            host=WEBAPP_HOST,
-            port=WEBAPP_PORT,
-            )
-
+    executor.start_polling(dp, skip_updates=True)

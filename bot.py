@@ -32,7 +32,7 @@ async def sarcastic_reply(message):
     await message.reply(random.choice(answer_var))
 
 @dp.message_handler(user_id = USER_ID)
-@dp.message_handler(filters.Text(contain=['внимание, анекдот'], ignore_case=True))
+@dp.message_handler(filters.Text(contains=['внимание, анекдот'], ignore_case=True))
 async def sarcastic_reply(message):
     await message.reply(random.choice(answer_var))
 

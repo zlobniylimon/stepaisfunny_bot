@@ -10,7 +10,7 @@ load_dotenv()
 API_TOKEN = os.getenv('API_TOKEN')
 USER_ID = int(os.getenv('USER_ID'))
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
@@ -25,16 +25,18 @@ answer_var = (
         'КАКОЙ СМЕШНОЙ МАЛЬЧИК'
         )
 
-@dp.message_handler(user_id = USER_ID)
-@dp.message_handler(content_types='photo')
-@dp.message_handler(lambda msg: msg.caption.lower().startwith('внимание, анекдот'))
+# @dp.message_handler(user_id = USER_ID)
+@dp.message_handler(lambda msg: msg.md_text.lower().startswith('внимание, анекдот'),
+                    user_id = USER_ID)
 async def sarcastic_reply(message):
     await message.reply(random.choice(answer_var))
 
-@dp.message_handler(user_id = USER_ID)
-@dp.message_handler(filters.Text(contains=['внимание, анекдот'], ignore_case=True))
+
+@dp.message_handler(lambda msg: msg.md_text.lower().startswith('внимание, анекдот'), 
+                    content_types='photo',
+                    user_id = USER_ID)
 async def sarcastic_reply(message):
-    await message.reply(random.choice(answer_var))
+    await message.reply(message.md_text)
 
 @dp.message_handler(commands=['status'])
 async def get_status(message):

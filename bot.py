@@ -36,7 +36,7 @@ async def sarcastic_reply(message):
                     content_types='photo',
                     user_id = USER_ID)
 async def sarcastic_reply(message):
-    await message.reply(message.md_text)
+    await message.reply(random.choice(answer_var))
 
 @dp.message_handler(commands=['status'])
 async def get_status(message):

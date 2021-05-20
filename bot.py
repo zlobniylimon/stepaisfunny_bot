@@ -38,6 +38,11 @@ async def sarcastic_reply(message):
 async def sarcastic_reply(message):
     await message.reply(random.choice(answer_var))
 
+@dp.message_handler(content_types='photo',
+                    user_id = USER_ID)
+async def not_funny_picture(message):
+    await message.reply('Не уверен, что это значит, но очень смешно')
+
 @dp.message_handler(commands=['status'])
 async def get_status(message):
     await message.reply('Я НЕ СПЛЮ')

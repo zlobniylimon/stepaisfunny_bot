@@ -25,31 +25,25 @@ answer_var = (
         'КАКОЙ СМЕШНОЙ МАЛЬЧИК'
         )
 
-# @dp.message_handler(user_id = USER_ID)
-@dp.message_handler(lambda msg: msg.md_text.lower().startswith('внимание, анекдот'),
+@dp.message_handler(lambda msg: msg.md_text and msg.md_text.lower().startswith('внимание, анекдот'),
+                    content_types=['text'],
                     user_id = USER_ID)
 async def sarcastic_reply(message):
     await message.reply(random.choice(answer_var))
 
 
-@dp.message_handler(content_types='photo',
+@dp.message_handler(content_types=['photo'],
                     user_id = USER_ID)
 async def sarcastic_reply(message):
-    if msg.md_text.lower().startswith('внимание, анекдот'):
-        await message.reply(random.choice(answer_var))
-    await message.reply('Не уверен, что это значит, но очень смешно')
+    try:
+        if message.md_text and message.md_text.lower().startswith('внимание, анекдот'):
+            await message.reply(random.choice(answer_var))
+    except TypeError:
+        await message.reply('Не уверен, что это значит, но очень смешно')
 
 @dp.message_handler(commands=['ping'])
 async def get_status(message):
     await message.reply('pong')
 
-async def on_startup(dp):
-    await bot.set_webhook(WEBHOOK_URL)
-
-async def on_shutdown(dp):
-    logging.warning('Shutting down...')
-    await bot.delete_webhook()
-    logging.warning('Bye!')
-    
 if __name__=="__main__":
     executor.start_polling(dp, skip_updates=True)

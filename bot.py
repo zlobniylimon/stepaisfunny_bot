@@ -9,21 +9,15 @@ load_dotenv()
 
 API_TOKEN = os.getenv('API_TOKEN')
 USER_ID = int(os.getenv('USER_ID'))
+CHAT_ID = int(os.getenv('CHAT_ID'))
 
 logging.basicConfig(level=logging.DEBUG)
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
-answer_var = (
-        'АХАХАХАХ ТЫ ТАКОЙ СМЕШНОЙ',
-        'ДАВАЙ ЕЩЕ АНЕКДОТ',
-        'И ГДЕ ТЫ ТОЛЬКО ТАКИЕ ШУТКИ НАХОДИШЬ',
-        'А ТЫ СЛУЧАЙНО НЕ СТЕНДАП-КОМИК', 
-        'МОЖЕШЬ ЕЩЕ ПОШУТИТЬ', 
-        'А ТЫ СЛУЧАЙНО В КВН НЕ УЧАСТВОВАЛ',
-        'КАКОЙ СМЕШНОЙ МАЛЬЧИК'
-        )
+with open('sarcastic_answers.txt', 'r') as data_file:
+    answer_var = data_file.readlines()
 
 @dp.message_handler(lambda msg: msg.md_text and msg.md_text.lower().startswith('внимание, анекдот'),
                     content_types=['text'],
@@ -34,7 +28,7 @@ async def sarcastic_reply(message):
 
 @dp.message_handler(content_types=['photo'],
                     user_id = USER_ID)
-async def sarcastic_reply(message):
+async def photo_reply(message):
     try:
         if message.md_text and message.md_text.lower().startswith('внимание, анекдот'):
             await message.reply(random.choice(answer_var))

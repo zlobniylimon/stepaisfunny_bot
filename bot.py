@@ -4,6 +4,7 @@ import os
 import random
 import logging
 from dotenv import load_dotenv
+import joke
 
 load_dotenv()
 
@@ -38,6 +39,11 @@ async def photo_reply(message):
 @dp.message_handler(commands=['ping'])
 async def get_status(message):
     await message.reply('pong')
+    
+@dp.message_handler(lambda msg: msg.md_text and msg.md_text.lower().startswith('бот, расскажи анекдот'))
+async def tell_joke(message):
+    await message.reply('Хорошо')
+    await message.answer('Внимание, анекдот\n'+joke.get_random_joke())
 
 if __name__=="__main__":
     executor.start_polling(dp, skip_updates=True)

@@ -1,3 +1,4 @@
 .env
 /venv
 sarcastic_answers.txt
+__pycache__

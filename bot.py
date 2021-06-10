@@ -34,7 +34,8 @@ async def photo_reply(message):
         if message.md_text and message.md_text.lower().startswith('внимание, анекдот'):
             await message.reply(random.choice(answer_var))
     except TypeError:
-        await message.reply('Не уверен, что это значит, но очень смешно')
+        if random.ranint(0,1):
+            await message.reply('Не уверен, что это значит, но очень смешно')
 
 @dp.message_handler(commands=['ping'])
 async def get_status(message):
